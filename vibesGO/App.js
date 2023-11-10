@@ -10,7 +10,8 @@ import ComponenteUno from './src/componente/ComponenteUno';
 import Home from './src/screens/Home';
 import ScreenTarjeta from './src/screens/ScreenTarjeta';
 import ScreenSistema from './src/screens/ScreenSistema';
-import ScreenSesion from './src/screens/ScreenSesion';
+import ScreenRegistroDos from './src/screens/ScreenRegistroDos';
+import RegistrarNegocio from './src/screens/RegistrarNegocio';
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -58,6 +59,16 @@ function App() {
               headerTitle: " ",
               headerShown: false,
             }} component={ScreenSistema} />
+            <Stack.Screen name="ScreenRegistroDos"
+            options={{
+              headerTitle: " ",
+              headerShown: false,
+            }} component={ScreenRegistroDos} />
+            <Stack.Screen name="RegistrarNegocio"
+            options={{
+              headerTitle: " ",
+              headerShown: false,
+            }} component={RegistrarNegocio} />
         </Stack.Navigator>
       </NavigationContainer>
     </>

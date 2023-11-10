@@ -1,13 +1,14 @@
 const express = require('express');
 const mysql = require('mysql2');
-const cors = require('cors')
+const cors = require('cors');
+const { getLatitudeAndLongitude } = require('./helper/getLatitudeAndLongitude');
 
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(cors());
 // Configura la conexión a la base de datos MySQL
 const db = mysql.createConnection({
-  host: 'localhost',
+  host: '192.168.0.14',
   user: 'root',
   password: '',
   port: 3306,
@@ -25,10 +26,13 @@ db.connect((err) => {
 app.use(express.json());
 
   // Ruta para agregar un nuevo usuario
-  app.post('/api/usuarios', (req, res) => {
-    const { nombre, contrasenia, email, calle, apellido} = req.body;
-    const sql = 'INSERT INTO usuarios SET nombre = ?, contrasenia = ?, email = ?, apellido = ?, calle = ?';
-    db.query(sql, [nombre, contrasenia, email, calle, apellido], (err) => {
+  app.post('/api/usuarios', async (req, res) => {
+    const { nombre, contrasenia, email, calle, numeroDeCalle , apellido, ciudad, provincia} = req.body;
+
+    const {latitude, longitude} = await getLatitudeAndLongitude(calle, numeroDeCalle, ciudad, provincia)
+
+    const sql = 'INSERT INTO usuarios SET nombre = ?, contrasenia = ?, email = ?, apellido = ?, calle = ?, latitude = ?, longitude = ?, numeroDeCalle = ?, city = ?, province = ?';
+    db.query(sql, [nombre, contrasenia, email, apellido, calle, latitude, longitude, numeroDeCalle, ciudad, provincia], (err) => {
       console.log("el error ", err)
       if (err) {
         throw err;

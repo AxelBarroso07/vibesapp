@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Alert, ImageBackground, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, Alert, ImageBackground, StyleSheet, TouchableOpacity} from "react-native";
 import backgroundImage from "../images/fondo.png";
+import { Feather } from "@expo/vector-icons"; 
 
 function Home({ navigation }) {
   
   const [nombre, setNombre] = useState('');
-  const [calle, setCalle] = useState('');
   const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
   const [contrasenia, setContrasenia] = useState('');
 
+
+
+
+
+
+  const BASE_URL = `http://192.168.0.14:3000`
+
   const handleEnviarGet = () => {
-    fetch('http://192.168.0.14:3000/api/usuarios', {
+    fetch(`${BASE_URL}/api/usuarios`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -32,20 +39,19 @@ function Home({ navigation }) {
       });
   };
 
-  const handleEnviar = () => {
-    if (!nombre || !apellido || !email || !calle || !contrasenia) {
+  const handleEnviar = (params) => {
+    if (!nombre || !apellido || !email || !contrasenia ) {
       Alert.alert('Campos Obligatorios', 'Todos los campos son obligatorios');
       return;
     }
     const datos = {
-      nombre: nombre,
-      apellido: apellido,
-      calle: calle,
-      email: email,
-      contrasenia: contrasenia,
+      nombre,
+      apellido,
+      email,
+      contrasenia,
     };
 
-    fetch('http://192.168.0.14:3000/api/usuarios', {
+    fetch(`${BASE_URL}/api/usuarios`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -69,6 +75,8 @@ function Home({ navigation }) {
         console.error('Error en la solicitud:', error);
         Alert.alert('Error en la conexión al backend o la base de datos');
       });
+
+      navigation.navigate("ScreenRegistroDos", params);
   };
 
   return (
@@ -104,61 +112,21 @@ function Home({ navigation }) {
             style={styles.input}
             placeholderTextColor={"white"}
           />
-          <TextInput
-            placeholder="Domicilio"
-            value={calle}
-            onChangeText={text => setCalle(text)}
-            style={styles.input}
-            placeholderTextColor={"white"}
-          />
 
-          <Button
-            title="Registrar"
-            onPress={handleEnviar}
-            color="transparent"
-            style={styles.button}
-          />
+<TouchableOpacity
+  style={[styles.button, styles.smallButton]}
+  onPress={() => handleEnviar({ nombre, apellido, email, contrasenia })}
+>
+  <Feather name="arrow-right" size={24} color="black" />
+</TouchableOpacity>
 
-<Button
-            title="Iniciar Sesión"
-            onPress={() => {
-              if (!email || !contrasenia) {
-                Alert.alert('Campos Obligatorios', 'Email y contraseña son obligatorios');
-                return;
-              }
-              const datos = {
-                email: email,
-                contrasenia: contrasenia,
-              };
 
-              // Realiza una solicitud de inicio de sesión al servidor
-              fetch('http://192.168.0.14:3000/api/login', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(datos),
-              })
-                .then(response => {
-                  if (response.ok) {
-                    return response.json();
-                  } else {
-                    throw new Error('Inicio de sesión fallido');
-                  }
-                })
-                .then(result => {
-                  console.log('Respuesta del servidor:', result);
-                  // Realiza la navegación a la pantalla "IniciarSesion" después de iniciar sesión
-                  navigation.navigate('ScreenSesion');
-                })
-                .catch(error => {
-                  console.error('Error en el inicio de sesión:', error);
-                  Alert.alert('Error en el inicio de sesión');
-                });
-            }}
-            color="transparent"
-            style={styles.button}
-          />
+            <TouchableOpacity
+            style={[styles.button, styles.smallButton, { backgroundColor: 'blue' }]}
+            
+          >
+            <Text style={{ color: 'white', textAlign: 'center' }}>Colocar Negocio</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ImageBackground>
@@ -195,6 +163,26 @@ const styles = StyleSheet.create({
     width: 250, // Establece el ancho en píxeles según tus necesidades
     fontSize: 20,
   },
+
+  button: {
+    backgroundColor: 'white',
+    borderColor: 'white',
+    borderWidth: 1,
+    padding: 10,
+    margin: 10,
+    border: 5,
+    height: 150,
+},
+buttonText: {
+  color: 'white',
+  textAlign: 'center',
+},
+largeButton: {
+    width: 300,
+},
+smallButton: {
+    height: 45,
+},
 });
 
 export default Home;
