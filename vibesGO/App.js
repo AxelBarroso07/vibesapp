@@ -12,6 +12,8 @@ import ScreenTarjeta from './src/screens/ScreenTarjeta';
 import ScreenSistema from './src/screens/ScreenSistema';
 import ScreenRegistroDos from './src/screens/ScreenRegistroDos';
 import RegistrarNegocio from './src/screens/RegistrarNegocio';
+import InicioNegocio from './src/screens/InicioNegocio';
+import DatosNegocio from './src/screens/DatosNegocio';
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -69,6 +71,17 @@ function App() {
               headerTitle: " ",
               headerShown: false,
             }} component={RegistrarNegocio} />
+            <Stack.Screen name="InicioNegocio"
+            options={{
+              headerTitle: " ",
+              headerShown: false,
+            }} component={InicioNegocio} />
+            <Stack.Screen name="DatosNegocio"
+            options={{
+              headerTitle: " ",
+              headerShown: false,
+            }} component={DatosNegocio} />
+            
         </Stack.Navigator>
       </NavigationContainer>
     </>

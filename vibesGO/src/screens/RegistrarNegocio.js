@@ -1,34 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import backgroundImage from '../images/fondo.png';
-
-
+import { View, Text, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 function RegistrarNegocio({ navigation }) {
+  const BASE_URL = `http://192.168.0.14:3000`;
 
-    const BASE_URL = `http://192.168.0.14:3000`
-    
+  const [nombreNegocio, setNombreNegocio] = useState('');
   const [calle, setCalle] = useState('');
   const [numeroDeCalle, setNumeroDeCalle] = useState('');
   const [ciudad, setCiudad] = useState('');
   const [provincia, setProvincia] = useState('');
 
   const handleEnviar = () => {
-    if (!calle || !numeroDeCalle || !ciudad || !provincia) {
+    if (!nombreNegocio || !calle || !numeroDeCalle || !ciudad || !provincia) {
       Alert.alert('Campos Obligatorios', 'Todos los campos son obligatorios');
       return;
     }
     const datos = {
-
-      numeroDeCalle,
-      ciudad,
+      nombreNegocio,
       calle,
-      provincia,
-
-
+      numeroDeCalle,
+      city: ciudad,
+      province: provincia,
     };
 
-    fetch(`${BASE_URL}/api/usuarios`, {
+    fetch(`${BASE_URL}/api/negocios`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,8 +39,8 @@ function RegistrarNegocio({ navigation }) {
       })
       .then(result => {
         console.log('Respuesta del servidor:', result);
-        Alert.alert('Usuario agregado correctamente', '', [
-          { text: 'OK', onPress: () => navigation.navigate('ScreenUno') },
+        Alert.alert('Negocio registrado correctamente', '', [
+          { text: 'OK', onPress: () => navigation.navigate('InicioNegocio') },  // Aquí se realiza la navegación
         ]);
       })
       .catch(error => {
@@ -55,61 +50,62 @@ function RegistrarNegocio({ navigation }) {
   };
 
   return (
-    <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-      <View style={styles.container}>
-        <Text style={styles.titleText}>VIBES</Text>
-        <View style={styles.formContainer}>
-          <TextInput
-            placeholder="Calle"
-            value={calle}
-            onChangeText={(text) => setCalle(text)}
-            style={styles.input}
-            placeholderTextColor="white"
-          />
-          <TextInput
-            placeholder="Número de calle"
-            value={numeroDeCalle}
-            onChangeText={(value) => setNumeroDeCalle(value)}
-            style={styles.input}
-            placeholderTextColor="white"
-          />
-          <TextInput
-            placeholder="Ciudad"
-            value={ciudad}
-            onChangeText={(value) => setCiudad(value)}
-            style={styles.input}
-            placeholderTextColor="white"
-          />
-          <TextInput
-            placeholder="Provincia"
-            value={provincia}
-            onChangeText={(value) => setProvincia(value)}
-            style={styles.input}
-            placeholderTextColor="white"
-          />
+    <View style={styles.container}>
+      <Text style={styles.titleText}>VIBES</Text>
+      <Text style={styles.commercialText}>comercial</Text>
+      <View style={styles.formContainer}>
+        <TextInput
+          placeholder="Nombre de negocio"
+          value={nombreNegocio}
+          onChangeText={text => setNombreNegocio(text)}
+          style={styles.input}
+          placeholderTextColor="white"
+        />
+        <TextInput
+          placeholder="Calle"
+          value={calle}
+          onChangeText={text => setCalle(text)}
+          style={styles.input}
+          placeholderTextColor="white"
+        />
+        <TextInput
+          placeholder="Número de calle"
+          value={numeroDeCalle}
+          onChangeText={value => setNumeroDeCalle(value)}
+          style={styles.input}
+          placeholderTextColor="white"
+        />
+        <TextInput
+          placeholder="Ciudad"
+          value={ciudad}
+          onChangeText={value => setCiudad(value)}
+          style={styles.input}
+          placeholderTextColor="white"
+        />
+        <TextInput
+          placeholder="Provincia"
+          value={provincia}
+          onChangeText={value => setProvincia(value)}
+          style={styles.input}
+          placeholderTextColor="white"
+        />
 
-          <Button
-            title="Registrar"
-            onPress={handleEnviar}
-            color="transparent"
-            style={styles.button}
-          />
-        </View>
+        <TouchableOpacity
+          onPress={handleEnviar}
+          style={styles.button}
+        >
+          <Text style={{ color: 'white', textAlign: 'center' }}>Registrar</Text>
+        </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-  },
   container: {
     flex: 1,
     alignItems: 'center',
-    marginBottom: 150,
+    backgroundColor: '#001AFF',
   },
   titleText: {
     fontSize: 50,
@@ -131,13 +127,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   button: {
-    backgroundColor: 'white',
-    borderColor: 'white',
-    borderWidth: 1,
     padding: 10,
     margin: 10,
-    border: 5,
-    height: 150,
+    borderWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'transparent',
+    height: 50,
+    justifyContent: 'center',
+  },
+
+
+  commercialText: {
+    color: 'white',
+    letterSpacing: 12, // Ajusta el espaciado según tu preferencia
+    fontSize: 10,
+    fontWeight: 'light',
   },
 });
 

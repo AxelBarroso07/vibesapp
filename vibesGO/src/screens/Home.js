@@ -39,7 +39,7 @@ function Home({ navigation }) {
       });
   };
 
-  const handleEnviar = (params) => {
+  const handleEnviar = () => {
     if (!nombre || !apellido || !email || !contrasenia ) {
       Alert.alert('Campos Obligatorios', 'Todos los campos son obligatorios');
       return;
@@ -51,32 +51,9 @@ function Home({ navigation }) {
       contrasenia,
     };
 
-    fetch(`${BASE_URL}/api/usuarios`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(datos),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('La solicitud no fue exitosa');
-        }
-      })
-      .then(result => {
-        console.log('Respuesta del servidor:', result);
-        Alert.alert('Usuario agregado correctamente', '', [
-          { text: 'OK', onPress: () => navigation.navigate('ScreenUno') },
-        ]);
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-        Alert.alert('Error en la conexión al backend o la base de datos');
-      });
-
-      navigation.navigate("ScreenRegistroDos", params);
+    
+    
+      navigation.navigate("ScreenRegistroDos", datos);
   };
 
   return (
@@ -121,12 +98,12 @@ function Home({ navigation }) {
 </TouchableOpacity>
 
 
-            <TouchableOpacity
-            style={[styles.button, styles.smallButton, { backgroundColor: 'blue' }]}
-            
-          >
-            <Text style={{ color: 'white', textAlign: 'center' }}>Colocar Negocio</Text>
-          </TouchableOpacity>
+<TouchableOpacity
+  style={[styles.button, styles.smallButton, { backgroundColor: 'blue' }]}
+  onPress={() => navigation.navigate('RegistrarNegocio')}
+>
+  <Text style={{ color: 'white', textAlign: 'center' }}>Colocar Negocio</Text>
+</TouchableOpacity>
         </View>
       </View>
     </ImageBackground>

@@ -42,19 +42,7 @@ app.use(express.json());
   });
 
   
-  // Ruta para actualizar un usuario
-  app.put('/api/usuarios/:id', (req, res) => {
-    const { id } = req.params;
-    const { nombre, contrasenia, email, calle } = req.body;
-    const sql = 'UPDATE usuarios SET nombre = ?, contrasenia = ?, email = ?, calle, apellido = ? WHERE id = ?';
-    db.query(sql, [nombre, contrasenia, email, calle, apellido, id], (err, result) => {
-      if (err) {
-        throw err;
-      }
-      res.json({ message: 'Usuario actualizado exitosamente', id });
-    });
-  });
-  
+
   
   // Ruta para eliminar un usuario
   app.delete('/api/usuarios/:id', (req, res) => {
@@ -67,6 +55,38 @@ app.use(express.json());
       res.json({ message: 'Usuario eliminado exitosamente', id });
     });
   });
+
+
+  //INICIA PARTE DE NEGOCIOS
+
+  // Ruta para agregar un nuevo negocio
+app.post('/api/negocios', async (req, res) => {
+  const { nombreNegocio, calle, numeroDeCalle, city, province } = req.body;
+
+  const { latitude, longitude } = await getLatitudeAndLongitude(calle, numeroDeCalle, city, province);
+
+  const sql = 'INSERT INTO negocios SET nombreNegocio = ?, calle = ?, numeroDeCalle = ?, city = ?, province = ?, latitude = ?, longitude = ?';
+  db.query(sql, [nombreNegocio, calle, numeroDeCalle, city, province, latitude, longitude], (err) => {
+    if (err) {
+      throw err;
+    }
+    res.json({ message: 'Negocio agregado exitosamente' });
+  });
+});
+
+
+
+// Ruta para eliminar un negocio
+app.delete('/api/negocios/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM negocios WHERE idNegocio = ?';
+  db.query(sql, [id], (err) => {
+    if (err) {
+      throw err;
+    }
+    res.json({ message: 'Negocio eliminado exitosamente', id });
+  });
+});
 
   
   

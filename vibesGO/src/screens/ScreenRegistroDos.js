@@ -24,6 +24,10 @@ function ScreenRegistroDos({ route, navigation }) {
       ciudad,
       calle,
       provincia,
+       nombre, 
+       apellido,
+        email,
+         contrasenia 
 
 
     };
