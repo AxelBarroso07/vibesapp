@@ -1,61 +1,47 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import backgroundImage from '../images/fondo.png';
+import createUser from '../../api/vibesGoApi';
+import backgroundImage from '../../images/fondo.png';
 
 
+function RegistryStepTwo({ route, navigation }) {
+  const { nombre, apellido, email, contrasenia } = route.params;
 
-function ScreenRegistroDos({ route, navigation }) {
-    const { nombre, apellido, email, contrasenia } = route.params;
-    const BASE_URL = `http://192.168.0.14:3000`
-    
   const [calle, setCalle] = useState('');
   const [numeroDeCalle, setNumeroDeCalle] = useState('');
   const [ciudad, setCiudad] = useState('');
   const [provincia, setProvincia] = useState('');
 
-  const handleEnviar = () => {
+  const handleEnviar = async () => {
+
+    console.log("llegue")
     if (!calle || !numeroDeCalle || !ciudad || !provincia) {
       Alert.alert('Campos Obligatorios', 'Todos los campos son obligatorios');
       return;
     }
+    
     const datos = {
-
       numeroDeCalle,
       ciudad,
       calle,
       provincia,
-       nombre, 
-       apellido,
-        email,
-         contrasenia 
-
-
+      nombre,
+      apellido,
+      email,
+      contrasenia
     };
 
-    fetch(`${BASE_URL}/api/usuarios`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(datos),
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('La solicitud no fue exitosa');
-        }
-      })
-      .then(result => {
-        console.log('Respuesta del servidor:', result);
-        Alert.alert('Usuario agregado correctamente', '', [
-          { text: 'OK', onPress: () => navigation.navigate('ScreenUno') },
-        ]);
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-        Alert.alert('Error en la conexión al backend o la base de datos');
-      });
+    const {success, error} = await createUser(datos)
+
+    if(error) {
+      Alert.alert(error.message);
+    }
+
+    if(success) {
+      Alert.alert(success.message, '', [
+        { text: 'OK', onPress: () => navigation.navigate('ScreenUno') },
+      ]);
+    }
   };
 
   return (
@@ -95,7 +81,7 @@ function ScreenRegistroDos({ route, navigation }) {
           <Button
             title="Registrar"
             onPress={handleEnviar}
-            color="transparent"
+           
             style={styles.button}
           />
         </View>
@@ -145,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScreenRegistroDos;
+export default RegistryStepTwo;

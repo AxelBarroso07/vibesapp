@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 
 function RegistrarNegocio({ navigation }) {
-  const BASE_URL = `http://192.168.0.14:3000`;
+  const BASE_URL = `http://10.0.5.30:3000`;
 
   const [nombreNegocio, setNombreNegocio] = useState('');
   const [calle, setCalle] = useState('');

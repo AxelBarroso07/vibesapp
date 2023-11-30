@@ -1,6 +1,5 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import Btn from "./Btn";
 import { Feather } from '@expo/vector-icons';
 
 function ScreenUno({ navigation }) {

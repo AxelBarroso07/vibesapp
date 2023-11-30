@@ -3,17 +3,16 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import ScreenUno from './src/screens/ScreenUno';
-import ScreenDos from './src/screens/ScreenDos';
 import ScreenTres from './src/screens/ScreenTres';
 import ScreenUnoB from './src/screens/ScreenUnoB';
-import ComponenteUno from './src/componente/ComponenteUno';
-import Home from './src/screens/Home';
+import RegistryStepOne from './src/screens/MainRegistries/RegistryStepOne';
 import ScreenTarjeta from './src/screens/ScreenTarjeta';
 import ScreenSistema from './src/screens/ScreenSistema';
-import ScreenRegistroDos from './src/screens/ScreenRegistroDos';
+import RegistryStepTwo from './src/screens/MainRegistries/RegistryStepTwo';
 import RegistrarNegocio from './src/screens/RegistrarNegocio';
 import InicioNegocio from './src/screens/InicioNegocio';
 import DatosNegocio from './src/screens/DatosNegocio';
+import LoginUser from './src/screens/Login/LoginUser';
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -21,26 +20,26 @@ function App() {
     <>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home"
+          <Stack.Screen name="RegistryStepOne"
             options={{
               headerTitle: " ",
               headerShown: false,
-            }} component={Home} />
+            }} component={RegistryStepOne} />
           <Stack.Screen name="ScreenUno"
             options={{
               headerTitle: " ",
               headerShown: false,
             }} component={ScreenUno} />
-          <Stack.Screen name="ComponenteUno"
+          {/* <Stack.Screen name="ComponenteUno"
             options={{
               headerTitle: " ",
               headerShown: false,
-            }} component={ComponenteUno} />
-          <Stack.Screen name="ScreenDos"
+            }} component={ComponenteUno} /> */}
+          {/* <Stack.Screen name="ScreenDos"
             options={{
               headerTitle: " ",
               headerShown: false,
-            }} component={ScreenDos} />
+            }} component={ScreenDos} /> */}
           <Stack.Screen name="ScreenTres"
             options={{
               headerTitle: " ",
@@ -61,11 +60,11 @@ function App() {
               headerTitle: " ",
               headerShown: false,
             }} component={ScreenSistema} />
-            <Stack.Screen name="ScreenRegistroDos"
+            <Stack.Screen name="RegistryStepTwo"
             options={{
               headerTitle: " ",
               headerShown: false,
-            }} component={ScreenRegistroDos} />
+            }} component={RegistryStepTwo} />
             <Stack.Screen name="RegistrarNegocio"
             options={{
               headerTitle: " ",
@@ -81,6 +80,11 @@ function App() {
               headerTitle: " ",
               headerShown: false,
             }} component={DatosNegocio} />
+            {/* <Stack.Screen name="LoginUser"
+            options={{
+              headerTitle: " ",
+              headerShown: false,
+            }} component={LoginUser} /> */}
             
         </Stack.Navigator>
       </NavigationContainer>
