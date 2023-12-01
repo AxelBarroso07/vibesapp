@@ -1,7 +1,26 @@
-import React from 'react';
+import {React, useState, useEffect} from 'react';
 import { Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {getStoresToClosed} from '../api/vibesGoApi'
 
-function ScreenUnoB({ navigation }) {
+
+function ScreenUnoB({ navigation, route: {params} }) {
+
+    const {latitude, longitude} = params
+    const [storesToClosed, setStoresToClosed] = useState('')
+    const [lengthStores, setLengthStores] = useState(0)
+
+    useEffect(() => {
+        getStoresToClosed({latitude, longitude, radio: 3})
+        .then((response)=>{
+            setStoresToClosed(response.data)
+            setLengthStores(response.data.length)
+        })
+    }, [])
+    
+
+    console.log("TIENDAS CERCANAS USUARIO: ", storesToClosed)
+    console.log("NUMERO DE TIENDAS DISPONIBLES", lengthStores)
+       
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -10,7 +29,7 @@ function ScreenUnoB({ navigation }) {
             >
                 <Image source={require('../images/image1.png')} style={styles.buttonImage} />
                 <View style={styles.overlay}>
-                    <Text style={styles.buttonTitle}>300 Locales en tu zona</Text>
+                    <Text style={styles.buttonTitle}>{lengthStores} Locales en tu zona</Text>
                     <Text style={[styles.buttonText, { color: 'white', borderColor: 'white' }]}>Explorar</Text>
                 </View>
             </TouchableOpacity>

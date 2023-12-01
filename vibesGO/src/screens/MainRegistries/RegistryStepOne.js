@@ -10,10 +10,10 @@ import { Feather } from "@expo/vector-icons";
  */
 function RegistryStepOne({ navigation }) {
 
-  const [nombre, setNombre] = useState('');
-  const [apellido, setApellido] = useState('');
-  const [email, setEmail] = useState('');
-  const [contrasenia, setContrasenia] = useState('');
+  const [nombre, setNombre] = useState('Mauro');
+  const [apellido, setApellido] = useState('Barroso');
+  const [email, setEmail] = useState('mauroandresbarroso@gmail.com');
+  const [contrasenia, setContrasenia] = useState('1234');
 
   const handleEnviar = () => {
     if (!nombre || !apellido || !email || !contrasenia) {

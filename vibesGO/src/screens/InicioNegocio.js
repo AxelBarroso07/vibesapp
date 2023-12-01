@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
-function InicioNegocio({ navigation }) {  // Asegúrate de desestructurar correctamente las props
+function InicioNegocio(props) {  // Asegúrate de desestructurar correctamente las props
+  const {navigation, route:{params}} = props
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>Hola!</Text>
@@ -13,7 +14,7 @@ function InicioNegocio({ navigation }) {  // Asegúrate de desestructurar correc
       </View>
       <TouchableOpacity
         style={[styles.button, styles.smallButton]}
-        onPress={() => navigation.navigate("DatosNegocio")} 
+        onPress={() => navigation.navigate("DatosNegocio", params)} 
       >
         <Feather name="arrow-right" size={24} color="white" />
       </TouchableOpacity>

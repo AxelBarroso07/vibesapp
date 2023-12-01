@@ -1,3 +1,6 @@
+const dbConfig = require('../config/dbConfig')
+
+
 class MySQLRepository {
     constructor (db) {
         this.db = db
@@ -23,11 +26,23 @@ class MySQLRepository {
 
     }
 
-    async get(){
+    async get(query){
+        return new Promise((resolve, reject)=> {
+            this.db.query(query, (err, data) => {
 
+                resolve(data)
+
+                if (err) {
+                    reject({error: err});
+                }
+            });
+        })
     }
 }
 
+const db = dbConfig()
+const mySQLRepository = new MySQLRepository(db)
+
 module.exports = {
-    MySQLRepository
+    mySQLRepository
 }

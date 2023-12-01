@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 function RegistrarNegocio({ navigation }) {
-  const BASE_URL = `http://10.0.5.30:3000`;
+  const BASE_URL = `http://192.168.0.11:3000`;
 
-  const [nombreNegocio, setNombreNegocio] = useState('');
-  const [calle, setCalle] = useState('');
-  const [numeroDeCalle, setNumeroDeCalle] = useState('');
-  const [ciudad, setCiudad] = useState('');
-  const [provincia, setProvincia] = useState('');
+  const [nombreNegocio, setNombreNegocio] = useState('Zara');
+  const [calle, setCalle] = useState('Florida');
+  const [numeroDeCalle, setNumeroDeCalle] = useState('651');
+  const [ciudad, setCiudad] = useState('Capital Federal');
+  const [provincia, setProvincia] = useState('Buenos Aires');
 
-  const handleEnviar = () => {
+  const handleEnviar = async () => {
     if (!nombreNegocio || !calle || !numeroDeCalle || !ciudad || !provincia) {
       Alert.alert('Campos Obligatorios', 'Todos los campos son obligatorios');
       return;
@@ -40,7 +43,7 @@ function RegistrarNegocio({ navigation }) {
       .then(result => {
         console.log('Respuesta del servidor:', result);
         Alert.alert('Negocio registrado correctamente', '', [
-          { text: 'OK', onPress: () => navigation.navigate('InicioNegocio') },  // Aquí se realiza la navegación
+          { text: 'OK', onPress: () => navigation.navigate('InicioNegocio', datos) },  // Aquí se realiza la navegación
         ]);
       })
       .catch(error => {

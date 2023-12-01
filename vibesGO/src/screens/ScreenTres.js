@@ -13,7 +13,7 @@ function ScreenTres() {
 
   const handleObtenerProductos = (categoriaSeleccionada) => {
     // Realiza una solicitud al servidor para obtener los productos de la categoría seleccionada
-    fetch(`http://192.168.0.14:3000/api/productos?categoria=${categoriaSeleccionada}`, {
+    fetch(`http://192.168.0.11:3000/api/productos?categoria=${categoriaSeleccionada}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

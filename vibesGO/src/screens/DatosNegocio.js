@@ -1,33 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-function DatosNegocio() {
-  const BASE_URL = `http://192.168.0.14:3000`;
+
+function DatosNegocio(props) {
+
+  const {route: {params}} = props
+
+  console.log("PROPERTIES", params)
+
+  const BASE_URL = `http://192.168.0.11:3000`;
   const [datosNegocio, setDatosNegocio] = useState(null);
 
   useEffect(() => {
-    // Realizar la solicitud al servidor para obtener los datos del negocio
-    fetch(`${BASE_URL}/api/negocios/datos`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('La solicitud no fue exitosa');
-        }
-      })
-      .then(result => {
-        console.log('Datos del negocio obtenidos:', result);
-        setDatosNegocio(result.negocio); // Asumiendo que la estructura del resultado es { negocio: {} }
-      })
-      .catch(error => {
-        console.error('Error en la solicitud:', error);
-        // Manejar el error según tus necesidades
-      });
+   setDatosNegocio(params)
   }, []);
 
   return (

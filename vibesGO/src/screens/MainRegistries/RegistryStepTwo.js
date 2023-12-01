@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
-import createUser from '../../api/vibesGoApi';
+import {createUser} from '../../api/vibesGoApi';
 import backgroundImage from '../../images/fondo.png';
 
 
 function RegistryStepTwo({ route, navigation }) {
   const { nombre, apellido, email, contrasenia } = route.params;
 
-  const [calle, setCalle] = useState('');
-  const [numeroDeCalle, setNumeroDeCalle] = useState('');
-  const [ciudad, setCiudad] = useState('');
-  const [provincia, setProvincia] = useState('');
+  const [calle, setCalle] = useState('Condarco');
+  const [numeroDeCalle, setNumeroDeCalle] = useState('761');
+  const [ciudad, setCiudad] = useState('Wilde');
+  const [provincia, setProvincia] = useState('Buenos Aires');
 
   const handleEnviar = async () => {
 
@@ -31,7 +31,9 @@ function RegistryStepTwo({ route, navigation }) {
       contrasenia
     };
 
-    const {success, error} = await createUser(datos)
+    const {success, error, data } = await createUser(datos)
+    
+    const {latitude, longitude} = data
 
     if(error) {
       Alert.alert(error.message);
@@ -39,7 +41,7 @@ function RegistryStepTwo({ route, navigation }) {
 
     if(success) {
       Alert.alert(success.message, '', [
-        { text: 'OK', onPress: () => navigation.navigate('ScreenUno') },
+        { text: 'OK', onPress: () => navigation.navigate('ScreenUno', {...datos, latitude, longitude}) },
       ]);
     }
   };

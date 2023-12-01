@@ -1,9 +1,10 @@
 const express = require('express');
-const { bussinesController } = require('../controller/bussinesController');
+const { createBusiness } = require('../controller/business/bussinesController');
+const { getBussinesByDistance } = require('../controller/business/getBusinessByDistance');
 const router = express.Router();
 
-const { createUserController } = require('../controller/createUserController');
-// const { dataController } = require('../controller/dataController');
+const { createUserController } = require('../controller/user/createUserController');
+
 
 const vibesgoRoutes = (mySQLRepository) => {
     router.post('/api/usuarios', async (req, res) => {
@@ -11,12 +12,12 @@ const vibesgoRoutes = (mySQLRepository) => {
     });
 
     router.post('/api/negocios', async (req, res) => {
-        return await bussinesController(mySQLRepository, req, res);
+        return await createBusiness(mySQLRepository, req, res);
     });
 
-    // router.get('/api/negocios/datos', async (req, res) => {
-    //     return await dataController(mySQLRepository, req, res);
-    // });
+    router.post('/api/getStoresByUserUbication', async(req,res) => {
+        return await getBussinesByDistance(mySQLRepository, req, res)
+    })
 
     return router;
 };

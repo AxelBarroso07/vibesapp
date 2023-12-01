@@ -2,7 +2,8 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Feather } from '@expo/vector-icons';
 
-function ScreenUno({ navigation }) {
+function ScreenUno({navigation, route: {params}}) {
+
     return (
         <View style={styles.container}>
             <TouchableOpacity
@@ -21,7 +22,7 @@ function ScreenUno({ navigation }) {
             </TouchableOpacity>
             <TouchableOpacity
                 style={[styles.button, styles.smallButton]}
-                onPress={() => navigation.navigate("ScreenUnoB")} 
+                onPress={() => navigation.navigate("ScreenUnoB", params)} 
             >
                 <Feather name="arrow-right" size={24} color="black" />
             </TouchableOpacity>
